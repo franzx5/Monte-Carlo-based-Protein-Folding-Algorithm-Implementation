@@ -11,6 +11,11 @@ class Residue(object):
     #Class to compute residues
 
     def __init__(self, char_residue):
-        self.type = char_residue
+        self.typeHP = char_residue
         self.coordX = 0
         self.coordY = 0
+
+    #Methodes
+    def get_attributes(self):
+        #Getting attributes of the residue...
+        return(self.typeHP, self.coordX, self.coordY)
