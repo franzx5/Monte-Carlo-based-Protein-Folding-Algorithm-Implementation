@@ -43,3 +43,11 @@ g1.draw_grille()
 confA = mooveA.corner_mouvement(confA.conf[1])
 g1.actualiser_grille(confA)
 g1.draw_grille()
+print "\n"
+confA.conf[4].coordX += 1
+confA.conf[4].coordY -= 1
+confA.conf[5].coordX += 1
+confA.conf[5].coordY -=1
+g1.actualiser_grille(confA)
+g1.draw_grille()
+confA = mooveA.cranckshaft_mouvement(confA.conf[2])
