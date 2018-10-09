@@ -4,14 +4,14 @@
 Author: AKE Franz-Arnold  
 Université Paris-Diderot
 
-Objectif
+__Objectif__
 
 Réaliser un programme reprenant la méthode décrite dans l'article.
 Dans un premier temps l'algorithme de Monte-Carlo simple sera implémenté,
 ensuite le R.E. Une séquence arbitraire de protéine pourra être soumis au
 programme afin de calculer son repliement par ce modèle.
 
-Based on the article :
+Based on this [article](https://bmcbioinformatics.biomedcentral.com/track/pdf/10.1186/1471-2105-8-342) (Click on it)
 
 Thachuk C, Shmygelska A, Hoos HH. A replica exchange Monte Carlo
 algorithm for protein folding in the HP model. BMC Bioinformatics. 2007 Sep
@@ -30,7 +30,7 @@ le repertoire src/ contient tous les codes sources pour l'implémentation des di
 le repertoire docs/ contient le rapport du projet en format open_office et pdf
 
 
-#### 2/Programme
+#### 2/ Programme
 ***********
 
 Il y a un seul script à exécuter dans le bash nommée REMC
@@ -45,7 +45,7 @@ celui-ci prend en paramètre :
 ``` Ex: time ./REMC ../data/sequencesHP/sequenceHP1.txt 500 "vhsd" sequence1.pdb ```
 
 
-#### 3/Visualisation de la conformation
+#### 3/ Visualisation de la conformation
 ****************************************
 
 La fichier pdb de sortie est un fichier construit avec les résidus de la séquence équivalents aux positions atomiques,
@@ -59,7 +59,7 @@ Label -> residue name
 Color -> by rep -> label -> black
 
 
-#### 4/Modules python importées
+#### 4/ Modules python importées
 *******************************
 Numpy, Argparse, sys, copy, collections
 
