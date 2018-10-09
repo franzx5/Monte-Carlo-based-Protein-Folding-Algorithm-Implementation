@@ -1,11 +1,10 @@
 
-# Subject : REPLIEMENT D’UN MODÈLE SIMPLIFIE DE PROTÉINE PAR UN ALGORITHME DE MONTE CARLO ET ECHANGES DE REPLIQUES
+## Subject : REPLIEMENT D’UN MODÈLE SIMPLIFIE DE PROTÉINE PAR UN ALGORITHME DE MONTE CARLO ET ECHANGES DE REPLIQUES
 
-#### Author: AKE Franz-Arnold
-#### Université Paris-Diderot
-#### Projet Court Python
+Author: AKE Franz-Arnold  
+Université Paris-Diderot
 
-__Objectif__ 
+Objectif
 
 Réaliser un programme reprenant la méthode décrite dans l'article.
 Dans un premier temps l'algorithme de Monte-Carlo simple sera implémenté,
@@ -21,7 +20,7 @@ algorithm for protein folding in the HP model. BMC Bioinformatics. 2007 Sep
 
 Exécution sous l'environnement python 2
 
-1/ Répertoires et Localisation des fichiers
+#### 1/ Répertoires et Localisation des fichiers
 *******************************************
 
 Le répertoire contient les dossiers data, source et docs
@@ -31,7 +30,7 @@ le repertoire src/ contient tous les codes sources pour l'implémentation des di
 le repertoire docs/ contient le rapport du projet en format open_office et pdf
 
 
-2/Programme
+#### 2/Programme
 ***********
 
 Il y a un seul script à exécuter dans le bash nommée REMC
@@ -43,11 +42,11 @@ celui-ci prend en paramètre :
 4/ le chemin de destination (Path) pour la sauvegarde du fichier PDB_file retournée par le programme
 (Sortie par défaut dans la sortie standard)
 
-Ex: time ./REMC ../data/sequencesHP/sequenceHP1.txt 500 "vhsd" sequence1.pdb
+``` Ex: time ./REMC ../data/sequencesHP/sequenceHP1.txt 500 "vhsd" sequence1.pdb ```
 
 
-3/Visualisation de la conformation
-**********************************
+#### 3/Visualisation de la conformation
+****************************************
 
 La fichier pdb de sortie est un fichier construit avec les résidus de la séquence équivalents aux positions atomiques,
 et pour lequel chaque position atomiques s'est vue attribuer les coordonnées géométriques de résidus dans la conformation
@@ -60,15 +59,15 @@ Label -> residue name
 Color -> by rep -> label -> black
 
 
-#4/Modules python importées
-***************************
+#### 4/Modules python importées
+*******************************
 Numpy, Argparse, sys, copy, collections
 
 
 
-#Contacts Personnels
-#*******************
-AKE Franz-Arnold
-franz.ake@etu.univ-paris-diderot.fr
+#### Contacts Personnels
+************************
+AKE Franz-Arnold  
+franz.ake@etu.univ-paris-diderot.fr  
 aerod7710@gmail.com
 
