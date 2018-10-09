@@ -52,11 +52,11 @@ La fichier pdb de sortie est un fichier construit avec les résidus de la séque
 et pour lequel chaque position atomiques s'est vue attribuer les coordonnées géométriques de résidus dans la conformation
 Celui-ci peut être visualisé via l'outil Pymol.
 
-Quelques manipulation rende la visualisation plus aisée (Couleurs et Labels):
-Action -> preset -> b factor putty
-Action -> preset -> ball and stick
-Label -> residue name
-Color -> by rep -> label -> black
+Quelques manipulation rende la visualisation plus aisée (Couleurs et Labels):  
+``Action -> preset -> b factor putty``  
+``Action -> preset -> ball and stick``   
+``Label -> residue name``  
+``Color -> by rep -> label -> black``  
 
 
 #### 4/ Modules python importées
