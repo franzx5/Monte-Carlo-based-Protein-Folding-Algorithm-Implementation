@@ -51,3 +51,5 @@ confA.conf[5].coordY -=1
 g1.actualiser_grille(confA)
 g1.draw_grille()
 confA = mooveA.cranckshaft_mouvement(confA.conf[2])
+g1.actualiser_grille(confA)
+g1.draw_grille()

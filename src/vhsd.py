@@ -39,14 +39,12 @@ class VHSD(object):
         if residu != self.conformation.conf[len(self.conformation.conf)-1]:
             res_voisin = self.grille.get_voisins_adjacents(residu)[0]
             if len(res_voisin) == 2:
-                print "ok"
                 free_positions_voisinA = self.grille.get_voisins_adjacents(res_voisin[0])[1]
                 free_positions_voisinB = self.grille.get_voisins_adjacents(res_voisin[1])[1]
 
                 for position in free_positions_voisinA:
                     if position in free_positions_voisinB:
                         if self.grille.grille[position[0], position[1]] == "*":
-                            print "ok2"
                             index = self.conformation.conf.values().index(residu)
                             self.conformation.conf[index] = residue.Residue(residu.typeHP)
                             self.conformation.conf[index].coordX, self.conformation.conf[index].coordY = (position[0], position[1])
@@ -54,19 +52,86 @@ class VHSD(object):
         else:
             print "Résidu de fin ! Non valable pour le corner_mouvement !!"
 
+
     def cranckshaft_mouvement(self, residu):
         x, y = (residu.coordX, residu.coordY)
-        coords_a_verif_vert_gauche = {"i-1":(x,y+1), "i-2":(x-1,y+1), "i+1":(x+1,y), "i+2":(x+1,y+1), "i+3":(x+2,y+1)}
-        coords_a_verif_horiz_haut = {"i-1":(x+1,y+1), "i-2":(x+1,<)}
+        horiz_case = ("HGH", "HGB", "HDH", "HDB")
+        g = self.grille
 
-        for element in coords_a_verif.values():
-            print (element[0], element[1])
-            if self.grille.grille[element[0], element[1]] == "*":
-                print "input residue is not a part of a u_shaped bend"
-                return False
-        indexA = self.conformation.conf.values().index(residu)
-        indexB = self.grille.grille(x+1,y)
-        self.conformation.conf[indexA] = residue.Residue(residu.typeHP)
-        self.conformation.conf[indexA].coordX, self.conformation.conf[indexA].coordY = (residu.coordX, residu.coordY+2)
-        self.conformation.conf[indexB].coordX, self.conformation.conf[indexB].coordY = (residu.coordX+1, residu.coordY+2)
+        for ele in horiz_case:
+            check = self.check_crankshaft_case(residu,ele)
+            print check, ele
+            if ele == "HGH" and check == True:
+                if g.check_FC((x+2,y)) and g.check_FC((x+2,y+1)):
+                    res_close = self.conformation.conf[int(g.grille[x,y+1])]
+                    return self.turn_crankshaft(residu, res_close, (x+2,y), (x+2,y+1))
+            if ele == "HGB" and check == True:
+                if g.check_FC((x-2,y)) and g.check_FC((x-2,y+1)):
+                    res_close = self.conformation.conf[int(g.grille[x,y+1])]
+                    return self.turn_crankshaft(residu, res_close, (x-2,y), (x-2,y+1))
+            if ele == "HDH" and check == True:
+                if g.check_FC((x+2,y)) and g.check_FC((x+2,y-1)):
+                    res_close = self.conformation.conf[int(g.grille[x,y-1])]
+                    return self.turn_crankshaft(residu, res_close, (x+2,y), (x+2,y-1))
+            if ele == "HDB" and check == True:
+                if g.check_FC((x-2,y)) and g.check_FC((x-2,y-1)):
+                    res_close = self.conformation.conf[int(g.grille[x,y-1])]
+                    return self.turn_crankshaft(residu, res_close, (x-2,y), (x-2,y-1))
+
+
+
+    def check_crankshaft_case(self, residu, case):
+        x, y = (residu.coordX, residu.coordY)
+        if case == "HGH":
+            pos = ((x,y+1),(x+1,y-1),(x+1,y),(x+1,y+1),(x+1,y+2))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+        if case == "HGB":
+            pos = ((x,y+1),(x-1,y-1),(x-1,y),(x-1,y+1),(x-1,y+2))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+        if case == "HDH":
+            pos = ((x,y-1),(x+1,y-2),(x+1,y-1),(x+1,y),(x+1,y+1))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+        if case == "HDB":
+            pos = ((x,y-1),(x-1,y-2),(x-1,y-1),(x-1,y),(x-1,y+1))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+        if case == "VGH":
+            pos = ((x+1,y),(x,y+1),(x-1,y+1),(x+1,y+1),(x+2,y+1))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+        if case == "VDH":
+            pos = ((x+1,y),(x,y-1),(x-1,y-1),(x+1,y-1),(x+2,y-1))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+        if case == "VGB":
+            pos = ((x-1,y),(x-2,y+1),(x-1,y+1),(x,y+1),(x+1,y+1))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+        if case == "VDB":
+            pos = ((x-1,y),(x-2,y-1),(x-1,y-1),(x,y-1),(x+1,y-1))
+            if self.check_vect_pos(pos):
+                return True
+            return False
+
+    def check_vect_pos(self, pos):
+        g = self.grille
+        res = (g.check_FC(pos[0]), g.check_FC(pos[1]), g.check_FC(pos[2]), g.check_FC(pos[3]), g.check_FC(pos[4]))
+        if res == tuple([False]*5) :
+            return True
+        else:
+            return False
+
+    def turn_crankshaft(self, residu, res_close, coordA, coordB):
+        residu.coordX, residu.coordY = coordA
+        res_close.coordX, res_close.coordY = coordB
         return self.conformation

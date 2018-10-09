@@ -49,3 +49,10 @@ class Grille(object):
             else:
                 voisins_libres.append(element)
         return [voisins_adjacents, voisins_libres]
+
+    def check_FC(self,tuple_coord):
+        #check in the lattice if an input position is free
+        if self.grille[tuple_coord[0],tuple_coord[1]] == "*":
+            return True
+        else:
+            return False

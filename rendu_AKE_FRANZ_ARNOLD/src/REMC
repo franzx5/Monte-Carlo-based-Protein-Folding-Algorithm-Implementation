@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+#*-*coding:utf-8*-*
+
+#Author: AKE Franz-Arnold
+#Universite Paris-Diderot
+#Projet Court: ...
+
+#import library
+import numpy as np
+import grille
+import conformation
+import vhsd
+import pull
+import mc_search
+import argparse
+import sys
+import getpdb
+
+
+# Options/Arguments parser
+parser = argparse.ArgumentParser(description='Return conformation PDB_file  from a sequence HP file',
+                                 epilog="Author: Franz-Arnold Ake, September 2018")
+
+# Positional Arguments
+parser.add_argument('infile', metavar="sequenceHP_file",
+                    type=argparse.FileType('r'), help='Path for the sequence HP file')
+parser.add_argument('nb_step', nargs="?", metavar="nombre_steps",
+                    type=int, help='Steps number for Monte Carlo_search algorithm running')
+parser.add_argument('mouvement', nargs="?", metavar="mouvement_type",
+                    type=str, help='Type of mouvement for Running Monte Carlo search Algorithm  vhsd ; pull ; hybrid')
+parser.add_argument('outfile', nargs="?", default=sys.stdout, metavar="output_file",
+                    type=argparse.FileType('w'), help='Path for saving conformation PDB_file (Default: output in Stdout)')
+args = parser.parse_args()
+
+
+#Declarations Grille
+lattice = grille.Grille() # empty grille
+
+#Lecture fichier
+res = args.infile.readlines()
+sequence = res[0][:len(res[0])-1]
+conform = conformation.Conformation(sequence) #initialisation d'une conformation
+
+#recupération des coordonnées des sequences
+for i in range(1, len(res)):
+    x, y = (int(res[i][1:3]), int(res[i][4:6]))
+    conform.conf[i-1].set_coords((x,y)) # chargement des coordonnées
+
+#initialisation de la grille
+lattice.maj_grille(conform)
+
+#initialisation des mouvements
+mouvement_vhsd = vhsd.VHSD(lattice, conform)
+mouvement_pull = pull.Pull(lattice, conform)
+
+#Initialisation Monte carlo Search
+if args.mouvement == "vhsd":
+    processus = mc_search.Mc_search(args.nb_step, conform, lattice, mouvement_vhsd)
+elif args.mouvement == "pull":
+    processus = mc_search.Mc_search(args.nb_step, conform, lattice, mouvement_pull)
+else:
+    choix = np.random.choice([0,1], p=[0.6,0.4])
+    if choix == 0:
+        processus = mc_search.Mc_search(args.nb_step, conform, lattice, mouvement_vhsd)
+    else:
+        processus = mc_search.Mc_search(args.nb_step, conform, lattice, mouvement_pull)
+
+#Run processus
+conform = processus.run()
+getpdb.get_pdb(args.outfile, conform)
